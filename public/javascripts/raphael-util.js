@@ -113,6 +113,19 @@ var buttons = {
 Raphael.fn.button = function (name) {
     var btn = buttons[name](this);
 
+    var fn_hvr_in = function(e) {
+        btn.items[0].animate({fill:'#ddff55', opacity:0.8}, 100);
+    }
+    var fn_hvr_out = function(e) {
+        btn.items[0].animate({fill:'#ffffff', opacity:1.0}, 100);
+    }
+
+    for( var elmt in btn.items ) {
+        var node = $(btn.items[elmt].node);
+        node.hover(fn_hvr_in,fn_hvr_out);
+        node.css('cursor',"pointer");
+    }
+
     return btn;
 }
 

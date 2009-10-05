@@ -38,15 +38,7 @@
         ui.topToolbar.paper.button('new_room').translate(65,5);
         ui.sideToolbar.paper.button('custom_room').translate(5,10);
         ui.sideToolbar.paper.button('square_room').translate(5,60);
-        tmp = ui.sideToolbar.paper.button('el_room').translate(5,110);
-        console.log(tmp.length);
-        var fn = function(e) {
-            tmp.items[0].animate({fill:'red', opacity:0.4}, 100);
-        }
-        for( var elmt in tmp.items ) {
-            console.log(tmp.items[elmt]);
-            $(tmp.items[elmt].node).hover(fn);
-        }
+        ui.sideToolbar.paper.button('el_room').translate(5,110);
 
         build.room(ui.main).translate(195,195);
 
