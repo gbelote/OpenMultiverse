@@ -11,7 +11,6 @@ $( function() {
         var holder = $(document.getElementById(id));
         var width = holder.attr('clientWidth');
         var height = holder.attr('clientHeight');
-        console.log("w/h = "+width+"/"+height);
         ui[key] = {
             elmt: holder,
             paper: Raphael( id, width-1, height-1 )
