@@ -1,8 +1,85 @@
 <html>
 <head>
 <title>Quick prototype of the basic map editor layout</title>
+<script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/raphael-v1.0-rc2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/raphael-util.js" type="text/javascript" charset="utf-8"></script>
 <link href="/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css"/>
+
+<style>
+#TOP_TOOLBAR {
+}
+#SIDE_TOOLBAR {
+}
+#MAIN {
+    border: 1px solid black;
+    background-color: #eeeeee;
+}
+#METADATA {
+    border: 2px dotted black;
+    padding: 10px;
+}
+
+#METADATA .inner {
+    position: relative;
+}
+
+#METADATA .inner input, #METADATA .inner textarea { width: 250px; }
+#METADATA .inner textarea { height: 250px; }
+
+
+</style>
+
+<script>
+    $(function() {
+        ui.main.setGrid(20,20,25);
+
+        //buttons.new_room(ui.topToolbar).translate(65,5);
+        ui.topToolbar.paper.button('new_room').translate(65,5);
+        ui.sideToolbar.paper.button('custom_room').translate(5,10);
+        ui.sideToolbar.paper.button('square_room').translate(5,60);
+        tmp = ui.sideToolbar.paper.button('el_room').translate(5,110);
+        console.log(tmp.length);
+        var fn = function(e) {
+            tmp.items[0].animate({fill:'red', opacity:0.4}, 100);
+        }
+        for( var elmt in tmp.items ) {
+            console.log(tmp.items[elmt]);
+            $(tmp.items[elmt].node).hover(fn);
+        }
+
+        build.room(ui.main).translate(195,195);
+
+        var c = ui.main.paper.circle(20,20,20).attr({fill:'white'});
+        $(c.node).hover(function(e) {
+            console.log(e);
+        });
+
+        ui.main.paper.circle(20,30,20).attr({fill:'black'});
+
+    });
+</script>
+
 </head>
 <body>
+<div id="TOP_TOOLBAR"><!-- --></div>
+<div id="METADATA">
+    <div class="inner">
+        <form>
+            <label for="title">Title:</label>
+            <input name="title" type="text" width="200"></input>
+            <br/>
+            <br/>
+            <label for="desc">Description:</label><br/>
+            <textarea name="desc" width="300" height="400"></textarea>
+            <br/>
+            <br/>
+            <label for="tags">Tags:</label>
+            <input name="tags" type="text" width="200"></input>
+        </form>
+    </div>
+</div>
+<div id="MAIN"><!-- --></div>
+<div id="SIDE_TOOLBAR"><!-- --></div>
 </body>
 </html>
