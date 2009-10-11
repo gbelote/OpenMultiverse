@@ -33,3 +33,11 @@ $.extend( Area.prototype, {
     }
 });
 
+$.extend( Area.prototype, {
+    translate: function (dx,dy) {
+        $.each(this.parts, function() {
+            this.translate(dx,dy);
+        });
+    }
+});
+

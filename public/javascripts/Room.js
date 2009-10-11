@@ -1,15 +1,18 @@
 
-var Room = function(area, walls) {
-    // Set of polygons
+var Room = function(area, wall) {
     this.area = area;
-    // Set of paths
-    this.walls = walls;
+    this.wall = wall;
+
+    $.each( area.parts, function() {
+        $(this.raphaelObject.node).css('cursor','hand');
+    });
 
     this.addProperty( 'dragging', false );
 
     $(this).bind("propchange", function(e) {
         if( e.propertyName == 'dragging' ) {
             area.setDragging( e.newValue );
+            wall.setDragging( e.newValue );
         }
     });
 
@@ -19,32 +22,34 @@ var Room = function(area, walls) {
         e.preventDefault();
         lastDrag = e;
         me.setDragging(true);
-    });
 
-    $(window).mouseup(function(e) {
-        me.setDragging(false);
-        lastDrag = false;
-    });
+        var mousemoveHandler = function(e) {
+            if( me.getDragging() ) {
+                //console.log( "x: "+(e.pageX-lastDrag.pageX)+" y: "+(e.pageY-lastDrag.pageY) );
+                //console.log(e);
+                var dx = e.pageX - lastDrag.pageX;
+                var dy = e.pageY - lastDrag.pageY;
 
-    $(window).mousemove(function(e) {
-        if( me.getDragging() ) {
-            //console.log( "x: "+(e.pageX-lastDrag.pageX)+" y: "+(e.pageY-lastDrag.pageY) );
-            //console.log(e);
-            var dx = e.pageX - lastDrag.pageX;
-            var dy = e.pageY - lastDrag.pageY;
+                me.translate(dx,dy);
 
-            // TODO unhack
-            $.each(me.area.parts, function() {
-                this.setX( this.getX() + dx );
-                this.setY( this.getY() + dy );
-            });
-
-            lastDrag = e;
+                lastDrag = e;
+            }
         }
+
+        var mouseupHandler = function(e) {
+            me.setDragging(false);
+            lastDrag = false;
+
+            $(window).unbind( 'mouseup', mouseupHandler );
+            $(window).unbind( 'mousemove', mousemoveHandler );
+        }
+
+        $(window).bind( 'mousemove', mousemoveHandler );
+        $(window).bind( 'mouseup', mouseupHandler );
     });
 
     OpenMultiverse.propagateMouseEvents( this.area, this );
-    //OpenMultiverse.propagateMouseEvents( this.walls, this );
+    //OpenMultiverse.propagateMouseEvents( this.wall, this );
 };
 
 $.extend( Room.prototype, {
@@ -58,7 +63,7 @@ $.extend( Room.prototype, {
     raphaelObject: false,
 
     makeRenderable: function( paper, options ) {
-        var settings = $.extend( { area: {}, walls: {} }, options );
+        var settings = $.extend( { area: {}, wall: {} }, options );
 
         var areaSettings = $.extend( {
             attr: {
@@ -68,11 +73,25 @@ $.extend( Room.prototype, {
             }
         }, settings.area );
 
+        var wallSettings = $.extend( {
+            attr: {
+                'stroke-width': '3'
+            }
+        }, settings.wall );
+
         this.raphaelObject = paper.set();
         this.raphaelObject.push( this.area.makeRenderable(paper,areaSettings) );
+        this.raphaelObject.push( this.wall.makeRenderable(paper,wallSettings) );
         return this.raphaelObject;
     }
 });
 
 $.extend( Room.prototype, OpenMultiverse.PropertyObject );
+
+$.extend( Room.prototype, {
+    translate: function (dx,dy) {
+        this.area.translate(dx,dy);
+        this.wall.translate(dx,dy);
+    }
+});
 
