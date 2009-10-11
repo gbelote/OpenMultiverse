@@ -16,37 +16,10 @@ var Room = function(area, wall) {
         }
     });
 
-    var me = this;
-    var lastDrag = false;
-    $(this).mousedown(function(e) {
-        e.preventDefault();
-        lastDrag = e;
-        me.setDragging(true);
-
-        var mousemoveHandler = function(e) {
-            if( me.getDragging() ) {
-                //console.log( "x: "+(e.pageX-lastDrag.pageX)+" y: "+(e.pageY-lastDrag.pageY) );
-                //console.log(e);
-                var dx = e.pageX - lastDrag.pageX;
-                var dy = e.pageY - lastDrag.pageY;
-
-                me.translate(dx,dy);
-
-                lastDrag = e;
-            }
-        }
-
-        var mouseupHandler = function(e) {
-            me.setDragging(false);
-            lastDrag = false;
-
-            $(window).unbind( 'mouseup', mouseupHandler );
-            $(window).unbind( 'mousemove', mousemoveHandler );
-        }
-
-        $(window).bind( 'mousemove', mousemoveHandler );
-        $(window).bind( 'mouseup', mouseupHandler );
-    });
+    $(this).svg_draggable();
+    $(this).bind('drag:start', function(e) { this.setDragging(true) });
+    $(this).bind('drag:update', function(e) { this.translate(e.dx,e.dy) });
+    $(this).bind('drag:end', function(e) { this.setDragging(false) });
 
     OpenMultiverse.propagateMouseEvents( this.area, this );
     //OpenMultiverse.propagateMouseEvents( this.wall, this );
