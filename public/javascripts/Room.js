@@ -3,10 +3,6 @@ var Room = function(area, wall) {
     this.area = area;
     this.wall = wall;
 
-    $.each( area.parts, function() {
-        $(this.raphaelObject.node).css('cursor','hand');
-    });
-
     this.addProperty( 'dragging', false );
 
     $(this).bind("propchange", function(e) {
@@ -55,6 +51,10 @@ $.extend( Room.prototype, {
         this.raphaelObject = paper.set();
         this.raphaelObject.push( this.area.makeRenderable(paper,areaSettings) );
         this.raphaelObject.push( this.wall.makeRenderable(paper,wallSettings) );
+
+        $.each( this.area.parts, function() { $(this.raphaelObject.node).css('cursor','move') });
+        $.each( this.wall.parts, function() { $(this.raphaelObject.node).css('cursor','crosshair') });
+
         return this.raphaelObject;
     }
 });
