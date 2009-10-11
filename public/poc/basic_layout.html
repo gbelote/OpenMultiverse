@@ -7,6 +7,7 @@
 <script src="/javascripts/sylvester.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/jQueryExtended.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/OpenMultiverse.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/Group.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/Shapes.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/Area.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/Wall.js" type="text/javascript" charset="utf-8"></script>
@@ -56,8 +57,8 @@
 
         var rect = new Rectangle( 120,70,400,300 );
         room = new Room(
-            new Area(rect),
-            new Wall(rect.perimeter())
+            new Group(rect),
+            new Group(rect.perimeter())
         );
 
         room.makeRenderable( ui.main.paper );
