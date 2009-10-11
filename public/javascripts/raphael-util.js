@@ -13,7 +13,7 @@ $( function() {
         var height = holder.attr('clientHeight');
         ui[key] = {
             elmt: holder,
-            paper: Raphael( id, width-1, height-1 )
+            paper: Raphael( id, width, height )
         };
     }
 
