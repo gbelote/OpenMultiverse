@@ -3,6 +3,10 @@
 <title>Quick prototype of the basic map editor layout</title>
 <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/raphael-v1.0-rc2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/jQueryExtended.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/OpenMultiverse.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/Shapes.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/Area.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/Room.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/raphael-util.js" type="text/javascript" charset="utf-8"></script>
 <link href="/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css"/>
@@ -41,10 +45,19 @@
         ui.sideToolbar.paper.button('square_room').translate(5,60);
         ui.sideToolbar.paper.button('el_room').translate(5,110);
 
-        build.room(ui.main).translate(195,195);
+        //build.room(ui.main).translate(195,195);
 
-        ui.main.paper.circle(20,20,20).attr({fill:'white'});
-        ui.main.paper.circle(20,30,20).attr({fill:'black'});
+        //ui.main.paper.circle(20,20,20).attr({fill:'white'});
+        //ui.main.paper.circle(20,30,20).attr({fill:'black'});
+
+
+        var rect = new Rectangle( 195,20,400,300 );
+        room = new Room(
+            new Area(rect),
+            false
+        );
+
+        room.makeRenderable( ui.main.paper );
 
     });
 </script>
