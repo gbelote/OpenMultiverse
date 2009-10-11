@@ -123,6 +123,7 @@ Raphael.fn.button = function (name) {
         var node = $(btn.items[elmt].node);
         node.hover(fn_hvr_in,fn_hvr_out);
         node.css('cursor',"pointer");
+        node.click( function(e) { $(btn).trigger(e) });
     }
 
     return btn;

@@ -12,6 +12,7 @@
 <script src="/javascripts/Area.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/Wall.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/Room.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/Door.js" type="text/javascript" charset="utf-8"></script>
 <script src="/javascripts/raphael-util.js" type="text/javascript" charset="utf-8"></script>
 <link href="/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css"/>
 
@@ -46,7 +47,15 @@
         //buttons.new_room(ui.topToolbar).translate(65,5);
         ui.topToolbar.paper.button('new_room').translate(65,5);
         ui.sideToolbar.paper.button('custom_room').translate(5,10);
-        ui.sideToolbar.paper.button('square_room').translate(5,60);
+
+        ui.sideToolbar.paper.button('square_room').translate(5,60).click(function(e) {
+            var rect = new Rectangle( 320,170,75,75 );
+            (new Room(
+                new Group(rect),
+                new Group(rect.perimeter())
+            )).makeRenderable( ui.main.paper );
+        });
+
         ui.sideToolbar.paper.button('el_room').translate(5,110);
 
         //build.room(ui.main).translate(195,195);
@@ -56,15 +65,15 @@
 
 
         var rect = new Rectangle( 120,70,400,300 );
+
+        door = new Door (147,70,46,10);
         room = new Room(
             new Group(rect),
-            new Group(rect.perimeter())
+            new Group(rect.perimeter()),
+            new Group([door])
         );
 
         room.makeRenderable( ui.main.paper );
-
-        line = new LineSegment( new Point(10,10), new Point(100,100) );
-        line.makeRenderable( ui.main.paper, { attr: { 'stroke-width': 4 } } );
 
     });
 </script>
