@@ -63,6 +63,9 @@
 
         room.makeRenderable( ui.main.paper );
 
+        line = new LineSegment( new Point(10,10), new Point(100,100) );
+        line.makeRenderable( ui.main.paper, { attr: { 'stroke-width': 4 } } );
+
     });
 </script>
 

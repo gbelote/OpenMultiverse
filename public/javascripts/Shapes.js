@@ -129,6 +129,71 @@ $.extend( PolygonPath.prototype, {
 });
 
 
+var LineSegment = function( p1, p2 ) {
+    this.addProperty( 'p1', p1 );
+    this.addProperty( 'p2', p2 );
+
+    var me = this;
+    $(p1).bind( "propchange", function(e) {
+        $(me).trigger({
+            type: "propchange",
+            propertyName: 'p1',
+            subevent: e,
+            point: p1
+        })
+        me.repath();
+    });
+
+    $(p2).bind( "propchange", function(e) {
+        $(me).trigger({
+            type: "propchange",
+            propertyName: 'p2',
+            subevent: e,
+            point: p2
+        })
+        me.repath();
+    });
+};
+
+$.extend( LineSegment.prototype, {
+    translate: function (dx,dy) {
+        this.getP1().translate(dx,dy);
+        this.getP2().translate(dx,dy);
+    },
+
+    // recompute the path
+    repath: function () {
+        this.raphaelObject.attr({
+            path: [
+                'M', this.getP1().getX(), ',', this.getP1().getY(),
+                'L', this.getP2().getX(), ',', this.getP2().getY()
+            ].join('')
+        });
+    }
+});
+
+$.extend( LineSegment.prototype, {
+    raphaelObject: false,
+
+    makeRenderable: function( paper, options ) {
+        var settings = $.extend( { attr: {} }, options );
+
+        this.raphaelObject = paper.line(
+            this.getP1().getX(),
+            this.getP1().getY(),
+            this.getP2().getX(),
+            this.getP2().getY());
+
+        this.raphaelObject.attr( settings.attr );
+
+        OpenMultiverse.propagateMouseEvents( this.raphaelObject.node, this );
+
+        return this.raphaelObject;
+    }
+});
+
+$.extend( LineSegment.prototype, OpenMultiverse.PropertyObject );
+
 $.extend( Rectangle.prototype, {
     perimeter: function() {
         return new PolygonPath ([
