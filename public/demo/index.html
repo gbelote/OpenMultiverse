@@ -1,21 +1,24 @@
 <html>
 <head>
 <title>Quick prototype of the basic map editor layout</title>
-<script src="/javascripts/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/jquery.rightClick.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/raphael-v1.0-rc2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/sylvester.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/jQueryExtended.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/OpenMultiverse.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/Group.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/Shapes.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/Area.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/Wall.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/Room.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/Door.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/SelectBox.js" type="text/javascript" charset="utf-8"></script>
-<script src="/javascripts/raphael-util.js" type="text/javascript" charset="utf-8"></script>
-<link href="/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css"/>
+<script src="jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="jquery.rightClick.js" type="text/javascript" charset="utf-8"></script>
+<script src="raphael-v1.0-rc2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="sylvester.js" type="text/javascript" charset="utf-8"></script>
+<script src="jQueryExtended.js" type="text/javascript" charset="utf-8"></script>
+<script src="OpenMultiverse.js" type="text/javascript" charset="utf-8"></script>
+<script src="Group.js" type="text/javascript" charset="utf-8"></script>
+<script src="Shapes.js" type="text/javascript" charset="utf-8"></script>
+<script src="Area.js" type="text/javascript" charset="utf-8"></script>
+<script src="Wall.js" type="text/javascript" charset="utf-8"></script>
+<script src="Room.js" type="text/javascript" charset="utf-8"></script>
+<script src="Door.js" type="text/javascript" charset="utf-8"></script>
+<script src="Build.js" type="text/javascript" charset="utf-8"></script>
+<script src="SimpleRoom.js" type="text/javascript" charset="utf-8"></script>
+<script src="SelectBox.js" type="text/javascript" charset="utf-8"></script>
+<script src="raphael-util.js" type="text/javascript" charset="utf-8"></script>
+<link href="layout.css" media="screen" rel="stylesheet" type="text/css"/>
+
 
 <style>
 #TOP_TOOLBAR {
@@ -46,7 +49,13 @@
         ui.main.setGrid(20,20,25);
 
         //buttons.new_room(ui.topToolbar).translate(65,5);
-        ui.topToolbar.paper.button('new_room').translate(65,5);
+        ui.topToolbar.paper.button('new_room').translate(65,5).click(function(e) {
+            new SimpleRoom().makeRenderable(ui.main.paper);
+        });
+        ui.topToolbar.paper.button('new_door').translate(115,5).click(function(e) {
+            ui.main.setDoorMode(true, e);
+        });
+
         ui.sideToolbar.paper.button('custom_room').translate(5,10);
 
         ui.sideToolbar.paper.button('square_room').translate(5,60).click(function(e) {
@@ -65,25 +74,13 @@
         //ui.main.paper.circle(20,30,20).attr({fill:'black'});
 
 
-        var rect = new Rectangle( 120,70,400,300 );
-
-        door = new Door (147,70,46,10);
-        room = new Room(
-            new Group(rect),
-            new Group(rect.perimeter()),
-            new Group([door])
-        );
-
-        room.makeRenderable( ui.main.paper );
+        room2 = new SimpleRoom( { x: 60, y: 60 } );
+        room2.makeRenderable(ui.main.paper);
 
 //      selectBox = new SelectBox( 91,91,100,100,4 );
 //      selectBox.makeRenderable( ui.main.paper, {
 //          attr: { 'stroke-width': 2, 'stroke': 'black', 'stroke-opacity': 0.8 }
 //      });
-
-        $(door).click(function(e) {
-            door.grabSelectBox(selectBox);
-        });
 
     });
 </script>

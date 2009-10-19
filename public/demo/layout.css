@@ -1,0 +1,33 @@
+
+#TOP_TOOLBAR {
+    position: absolute;
+    height: 50px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+}
+
+#SIDE_TOOLBAR {
+    position: absolute;
+    width: 50px;
+    top: 75px;
+    bottom: 10px;
+    left: 10px;
+}
+
+#MAIN {
+    position: absolute;
+    top: 75px;
+    left: 75px;
+    right: 325px;
+    bottom: 10px;
+}
+
+#METADATA {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    top: 75px;
+    width: 275px;
+}
+

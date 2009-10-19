@@ -1,0 +1,28 @@
+<html>
+<head>
+<script src="/javascripts/jquery-1.3.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="/javascripts/raphael-ext.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+
+$(function() {
+    paper = Raphael( document.getElementById("holder"),400,300 );
+
+    s = paper.set();
+    s.push(paper.rect(10,10,30,30));
+    s.translate(100,0);
+
+    g = paper.group();
+    g.addChild( paper.rect(5,5,15,15) );
+    g.node['transform'] = "rotate(45)";
+});
+</script>
+
+</head>
+<body>
+
+<div id="holder"></div>
+
+</body>
+</html>
+
