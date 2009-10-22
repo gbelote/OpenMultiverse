@@ -1,11 +1,13 @@
 
 om.Resizeable = {
-    addShapeChangeListener: function( name ) {
+    addShapeChangeListener: function( name, attrName, obj ) {
+        if( typeof attrName == 'undefined' ) { attrName = name; }
+        if( typeof obj == 'undefined' ) { obj = this.raphaelObject; }
         $(this).bind("propchange", function(e) {
             if( e.propertyName == name ) {
                 var newAttr = {};
-                newAttr[name] = e.newValue;
-                this.raphaelObject.attr(newAttr);
+                newAttr[attrName] = e.newValue;
+                obj.attr(newAttr);
             }
         });
     }
@@ -75,6 +77,25 @@ $.extend( Point.prototype, {
         this.setY( this.getY() + dy );
     }
 });
+
+$.extend( Point.prototype, {
+    raphaelObject: false,
+
+    makeRenderable: function( paper, options ) {
+        var settings = $.extend( { }, options );
+
+        this.raphaelObject = paper.circle(this.getX(), this.getY(), 4);
+        this.raphaelObject.attr( settings.attr );
+        OpenMultiverse.propagateMouseEvents( this.raphaelObject.node, this );
+
+        this.addShapeChangeListener("x", "cx");
+        this.addShapeChangeListener("y", "cy");
+
+        return this.raphaelObject;
+    }
+});
+
+$.extend( Point.prototype, OpenMultiverse.Resizeable );
 
 
 var PolygonPath = function(points) {
